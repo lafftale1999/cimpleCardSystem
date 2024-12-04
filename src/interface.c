@@ -70,18 +70,18 @@ void printInformation(char *headline, char *message)
     printf("%s\n", message);
 }
 
-void printAllCards(Clients clients)
+void printAllCards(Clients *clients)
 {
     printInformation("LIST ALL CARDS", "Listing all cards");
 
-    if (clients.size > 0)
+    if (clients->fill > 0)
     {
-        for (int i = 0; i < clients.size; i++)
+        for (int i = 0; i < clients->fill; i++)
         {
-            printf("%d | %s | %s",
-            clients.list[i].id,
-            checkClientAccess(clients.list[i]) == ACCESS ? "Access" : "No Access",
-            clients.list[i].dateOfRegistration);
+            printf("%d | %s | %s\n",
+            clients->list[i].id,
+            checkClientAccess(clients->list[i]) == ACCESS ? "Access" : "No Access",
+            clients->list[i].dateOfRegistration);
         }
     }
 }

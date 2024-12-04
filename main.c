@@ -18,10 +18,6 @@ int main()
         return 1;
     }
 
-    printf("%s\n", clients.list[0].clientMapPath);
-    printf("%s\n", clients.list[1].clientMapPath);
-    printf("%s\n", clients.list[2].clientMapPath);
-
     int menuChoice = 0;
     int menuPauseMS = 2000;
 
@@ -44,7 +40,7 @@ int main()
                 continue;
 
             case 3:
-                printAllCards(clients);
+                printAllCards(&clients);
                 Sleep(menuPauseMS);
                 continue;
 

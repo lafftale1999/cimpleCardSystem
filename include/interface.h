@@ -12,7 +12,7 @@
 int runMainMenu();
 void printMenuOptions(char *menu[], char menuMessage[], int size);
 void printInformation(char *headline, char *message);
-void printAllCards(Clients clients);
+void printAllCards(Clients *clients);
 void UIopenDoor();
 void UIscanCard(Clients clients);
 void UIcreateNewClient(Clients *clients);

@@ -141,7 +141,6 @@ int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
         {
             if(!(systemKeyVector[r][c] == clientKeyVector[r][c]))
             {
-                printf("Client does not have access | compareKeyVectors() client.c\n");
                 return 1;
             }
         }
@@ -234,13 +233,11 @@ int countClientsInListFile(Clients *clients)
         if(ch == ',') 
         {
             commaCounter++;
-            printf("%d commas\n", commaCounter);
         }
     }
 
     fclose(file);
 
-    printf("%d", commaCounter / N_OF_ATTRIBUTES);
     clients->fill = commaCounter / N_OF_ATTRIBUTES;
 
     return 0;
