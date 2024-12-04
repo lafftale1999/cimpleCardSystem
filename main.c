@@ -17,7 +17,7 @@ int main()
         printf("Clients was not able to initialize!");
         return 1;
     }
-
+    
     int menuChoice = 0;
     int menuPauseMS = 2000;
 

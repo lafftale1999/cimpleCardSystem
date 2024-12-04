@@ -231,11 +231,16 @@ int countClientsInListFile(Clients *clients)
 
     while((ch = fgetc(file)) != EOF)
     {
-        if(ch = ',') commaCounter++;
+        if(ch == ',') 
+        {
+            commaCounter++;
+            printf("%d commas\n", commaCounter);
+        }
     }
 
     fclose(file);
 
+    printf("%d", commaCounter / N_OF_ATTRIBUTES);
     clients->fill = commaCounter / N_OF_ATTRIBUTES;
 
     return 0;
