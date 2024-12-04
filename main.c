@@ -23,45 +23,37 @@ int main()
 
     while (true)
     {   
-        printf("After continue\n");
         menuChoice = runMainMenu();
 
         switch(menuChoice)
         {
             case 1: 
                 UIscanCard(clients);
-                Sleep(menuPauseMS);
-                printf("Before continue\n");
                 continue;
 
             case 2:
                 UIopenDoor();
-                Sleep(menuPauseMS);
                 continue;
 
             case 3:
                 printAllCards(&clients);
-                Sleep(menuPauseMS);
                 continue;
 
             case 4:
                 UIchangeAccess(clients);
-                Sleep(menuPauseMS);
                 continue;
 
             case 5:
                 UIcreateNewClient(&clients);
-                Sleep(menuPauseMS);
                 continue;
 
             case 6:
                 if(UIexitProgram()) break;
-                Sleep(menuPauseMS);
                 continue;
 
             default:
                 printf("Something went wrong. Please try again!\n");
-                Sleep(menuPauseMS);
+                Sleep(2000);
                 continue;
         }
 
