@@ -3,6 +3,7 @@
 #include "../include/mapgen.h"
 #include "../include/decrypt.h"
 #include "../include/safeinput.h"
+#include "../include/access.h"
 
 int initClientList(Clients *clients)
 {
@@ -20,34 +21,25 @@ int createNewClient(Clients *clients)
     if(checkClientRealloc(clients) == -1) return - 1;
 
     int flag = 0;
-    
-    int clientCount;
-    flag += readClientCount(&clientCount);
 
-    clients->list[clients->size - 1].id = clientCount;
+    clients->list[clients->fill].id = generateCardId(clients);
 
     Restriction access = giveAccess();
-
-    char tempId[8];
-    sprintf(tempId, "%d", clients->list[clients->size - 1].id);
     
-    flag += createKeyPath(&clients->list[clients->size - 1]);
-    flag += createMapPath(&clients->list[clients->size - 1]);
-    flag += createRegistrationDate(&clients->list[clients->size - 1]);
+    flag += createKeyPath(&clients->list[clients->fill]);
+    flag += createMapPath(&clients->list[clients->fill]);
+    flag += createRegistrationDate(&clients->list[clients->fill]);
 
-    flag += createClientMap(clients->list[clients->size - 1].clientMapPath);
+    flag += createClientMap(clients->list[clients->fill].clientMapPath);
     flag += createKey(
-        clients->list[clients->size - 1].clientKeyPath,
-        clients->list[clients->size - 1].clientMapPath,
+        clients->list[clients->fill].clientKeyPath,
+        clients->list[clients->fill].clientMapPath,
         access);
 
     if(flag){
         printf("Client creation failed. Read log | createNewClient() client.c\n");
         return -1;
     }
-
-    clientCount++;
-    increaseClientCount(clientCount);
 
     clients->fill++;
     writeClientListToFile(*clients, clients->fill);
@@ -61,35 +53,30 @@ Restriction giveAccess()
     printf("Enter (1) for access or (2) for no access!\n");
 
     int userInput;
-    INPUT_RESULT inputResult;
+    bool inputResult;
 
     while(true)
     {
         inputResult = GetInputInt("> ", &userInput);
 
-        switch(inputResult)
+        if(inputResult)
         {
-            case INPUT_RESULT_OK:
+            if(userInput == 1) return ACCESS;
 
-                if(userInput == 1) return ACCESS;
+            else if(userInput == 2) return N_ACCESS;
 
-                else if(userInput == 2) return N_ACCESS;
+            printf("Please enter either (1) for access or (2) for no access!\n");
+            continue;
 
-                printf("Please enter either (1) for access or (2) for no access!\n");
-                continue;
-
-            case INPUT_RESULT_NO_INPUT:
-                printf("No input: You have to enter either (1) for access or (2) for no access!\n");
-                continue;
-
-            case INPUT_RESULT_TOO_LONG:
-                printf("Input too long: Please enter either (1) for access or (2) for no access!");
-                continue;
-
-            default:
-                printf("Something went wrong! | giveAccess() client.c");
-                continue;
         }
+
+        else 
+        {
+            printf("Input too long: Please enter either (1) for access or (2) for no access!");
+            continue;
+        }
+
+        printf("Something went wrong! | giveAccess() client.c");
     }
 }
 
@@ -132,53 +119,17 @@ int createRegistrationDate(Client *client)
     time_t t;
     time(&t);
 
-    client->dateOfRegistration[0] = '\0';
-
     sprintf(client->dateOfRegistration, "%s", ctime(&t));
 
-    if(client->dateOfRegistration[0] = '\0')
+    client->dateOfRegistration[strlen(client->dateOfRegistration) - 1] = '\0';
+    
+    if(client->dateOfRegistration[0] == '\0')
     {
         printf("Error creating date for client| createRegistrationDate() client.c\n");
         return 1;
     }
 
     return 0;
-}
-
-int readClientCount(int *clientCount)
-{
-    FILE *file = fopen(CLIENT_COUNT_PATH, "r");;
-
-    char temp[8];
-
-    if(file == NULL)
-    {
-        printf("%s does not exist | readClientCount() client.c\n", CLIENT_COUNT_PATH);
-        return 1;
-    }
-
-    while ((fgets(temp, 8, file)) != NULL);
-    
-    fclose(file);
-
-    *clientCount = atoi(temp);
-
-    if (*clientCount <= 0)
-    {
-        printf("failed to assign value to clientCount | readClientCount() client.c\n");
-        return 1;
-    }
-
-    return 0;
-}
-
-void increaseClientCount(int clientCount)
-{
-    FILE *file = fopen(CLIENT_COUNT_PATH, "w");
-
-    fprintf(file, "%d", clientCount);
-
-    fclose(file);
 }
 
 int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
@@ -198,8 +149,6 @@ int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
 
     return 0;
 }
-
-// void readClientList();
 
 Restriction checkClientAccess(Client client)
 {

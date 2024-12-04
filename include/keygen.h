@@ -14,9 +14,9 @@ void createSystemKey();
 
 int generateKeyNumbers(unsigned char keyVector[KEY_ROWS][KEY_COLS]);
 
-void printKey(char systemKey[KEY_ROWS][KEY_COLS * KEY_N_CHAR]);
+void printKey(char systemKey[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1]);
 
-void saveKeyToFile(char systemKey[KEY_ROWS][KEY_COLS * KEY_N_CHAR], char filePath[]);
+void saveKeyToFile(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1], char filePath[]);
 
 int readKeyFromFile(char tempKey[], char filePath[]);
 

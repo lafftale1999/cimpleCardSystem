@@ -5,6 +5,7 @@
 #include "../include/access.h"
 
 #include <ctype.h>
+#include <windows.h>
 
 #define MENU_OPTIONS 6
 
@@ -27,8 +28,6 @@ int runMainMenu()
     while (true)
     {
         inputResult = GetInputInt("> ", &userChoice);
-        printf("%d\n", userChoice);
-        printf("%d\n", sizeof(userChoice));
 
         if(inputResult)
         {
@@ -67,8 +66,8 @@ void printInformation(char *headline, char *message)
 {
     clearScreen();
 
-    printf("%s\n", *headline);
-    printf("%s\n", *message);
+    printf("%s\n", headline);
+    printf("%s\n", message);
 }
 
 void printAllCards(Clients clients)
@@ -118,6 +117,8 @@ void UIcreateNewClient(Clients *clients)
     {
         printf("Client creation failed! | UIcreateNewClient() interface.c\n");
     }
+
+    printf("Client successfully created\n");
 }
 
 void UIchangeAccess(Clients clients)

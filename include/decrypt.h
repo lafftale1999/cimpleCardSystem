@@ -10,15 +10,15 @@
 int decryptKey( unsigned char keyVector[KEY_ROWS][KEY_COLS],
                 char keyPath[], char mapPath[]);
 
-int structureKey(  char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
-                    char tempKey[KEY_ROWS * KEY_COLS * KEY_N_CHAR]);
+int structureKey(  char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
+                    char tempKey[KEY_ROWS * KEY_COLS * KEY_N_CHAR + 1]);
 
 int solveKey(  char systemMap[MAP_ROWS][MAP_COLS],
                 unsigned char keyVector[KEY_ROWS][KEY_COLS],
-                char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR]);
+                char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1]);
 
-void generateString(char temp[KEY_N_CHAR],
-                    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
+void generateString(char temp[KEY_N_CHAR + 1],
+                    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
                     int r, int c);
 
 void decryptValues( char systemMap[MAP_ROWS][MAP_COLS],

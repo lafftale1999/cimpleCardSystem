@@ -1,6 +1,8 @@
 #include "../include/access.h"
 #include "../include/doorSystem.h"
 #include "../include/interface.h"
+#include <math.h>
+#include <time.h>
 
 int authorizeClient(Clients clients, int cardId)
 {
@@ -29,6 +31,23 @@ int authorizeClient(Clients clients, int cardId)
         printf("Something went wrong! authorizeClient() access.c\n");
         break;
     }
+}
 
-    
+int generateCardId(Clients *clients)
+{
+    srand(time(NULL));
+
+    int rnd = 0;
+
+    while (1)
+    {
+        rnd = rand() % 10000;
+
+        for(int i = 0; i < clients->fill; i++)
+        {
+            if(rnd == clients->list[i].id) continue;
+        }
+
+        return rnd;
+    }
 }

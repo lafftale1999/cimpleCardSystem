@@ -14,7 +14,7 @@ int createKey(char keyPath[], char mapPath[], Restriction access)
 
     // two by two vector to save encrypted key values to
     // these will be assigned by using the specified map in mapPath
-    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR];
+    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1];
     for (int i = 0; i < KEY_ROWS; i++)
         key[i][0] = '\0';
     
@@ -49,7 +49,7 @@ void createSystemKey()
 
     // two by two vector to save encrypted key values to
     // these will be assigned by using the specified map in mapPath
-    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR];
+    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1];
     for (int i = 0; i < KEY_ROWS; i++)
         key[i][0] = '\0';
 
@@ -85,7 +85,7 @@ int generateKeyNumbers(unsigned char keyVector[KEY_ROWS][KEY_COLS])
 }
 
 // printing the encrypted key
-void printKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR])
+void printKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1])
 {
     // ----------- DEBUG ------------
     printf("\nPRINT CRYPTED KEY START\n");
@@ -123,21 +123,20 @@ void printKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR])
     // ----------- DEBUG ------------
 }
 
-void saveKeyToFile(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR], char filePath[])
+void saveKeyToFile(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1], char filePath[])
 {
-    FILE *file;
-
-    file = fopen(filePath, "w");
+    FILE *file = fopen(filePath, "w");
 
     for (int i = 0; i < KEY_ROWS; i++)
     {
-        fprintf(file, key[i]);
+        fprintf(file, "%s", key[i]);
     }
+
+    fclose(file);
 }
 
 int readKeyFromFile(char tempKey[], char filePath[])
 {   
-    
     FILE *file;
 
     file = fopen(filePath, "r");
@@ -148,7 +147,7 @@ int readKeyFromFile(char tempKey[], char filePath[])
         return 1;
     }
    
-    while(fgets(tempKey, (KEY_ROWS * KEY_COLS * KEY_N_CHAR), file) != NULL);
+    fgets(tempKey, (KEY_ROWS * KEY_COLS * KEY_N_CHAR + 1), file);
 
     fclose(file);
 

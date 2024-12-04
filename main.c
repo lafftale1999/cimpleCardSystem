@@ -23,6 +23,7 @@ int main()
 
     while (true)
     {   
+        printf("After continue\n");
         menuChoice = runMainMenu();
 
         switch(menuChoice)
@@ -30,6 +31,7 @@ int main()
             case 1: 
                 UIscanCard(clients);
                 Sleep(menuPauseMS);
+                printf("Before continue\n");
                 continue;
 
             case 2:
