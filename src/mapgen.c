@@ -58,9 +58,9 @@ int mapHashString(char hashString[], char map[MAP_ROWS][MAP_COLS])
 
     for (int r = 0; r < MAP_ROWS; r++)
     {
-        if(strlen(map[r]) != 56)
+        if(strlen(map[r]) != MAP_COLS - 1)
         {
-            printf("String not correctly mapped. mapgen.c\n");
+            printf("String not correctly mapped at %d. mapgen.c\n", r);
             return 1;
         }
     }
@@ -169,7 +169,13 @@ void saveMapToFile(char map[], char mapPath[])
 {
     FILE *file = fopen(mapPath, "w");
 
-    fprintf(file, map);
+    if (file == NULL)
+    {
+        printf("Error creating file: %s", mapPath);
+        return;
+    }
+
+    fprintf(file, "%s", map);
 
     fclose(file);
 }

@@ -1,7 +1,7 @@
 #include "../include/encrypt.h"
 #include "../include/mapgen.h"
 
-int encryptKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
+int encryptKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
                 unsigned char keyVector[KEY_ROWS][KEY_COLS],
                 char mapPath[])
 {
@@ -21,7 +21,7 @@ int encryptKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
             strcat(key[r],map[mapRow]);
         }
 
-        if(strlen(key[r]) != 56)
+        if(strlen(key[r]) != KEY_COLS * KEY_N_CHAR)
         {
             printf("Error assigning key values on row %d | encrypt.c\n");
             return 1;

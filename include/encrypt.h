@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int encryptKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
+int encryptKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
                 unsigned char keyVector[KEY_ROWS][KEY_COLS],
                 char mapPath[]);
 

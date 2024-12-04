@@ -10,21 +10,22 @@ int decryptKey( unsigned char keyVector[KEY_ROWS][KEY_COLS],
     char map[MAP_ROWS][MAP_COLS];
 
     // key is used to store the encrypted system value in
-    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR];
+    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1];
     
     // tempKey is used to store the unformatted keystring from file in
-    char tempKey[(KEY_ROWS * KEY_COLS * KEY_N_CHAR)];
+    char tempKey[(KEY_ROWS * KEY_COLS * KEY_N_CHAR + 1)];
+    tempKey[0] = '\0';
     
-    flag += getMap(map, mapPath);
-    flag += readKeyFromFile(tempKey, keyPath);
-    flag += structureKey(key, tempKey);
+    flag += getMap(map, mapPath); // works
+    flag += readKeyFromFile(tempKey, keyPath); // works
+    flag += structureKey(key, tempKey); // works
     flag += solveKey(map, keyVector, key);
 
     return flag;
 }
 
-int structureKey(  char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
-                    char tempKey[KEY_ROWS * KEY_COLS * KEY_N_CHAR])
+int structureKey(   char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
+                    char tempKey[KEY_ROWS * KEY_COLS * KEY_N_CHAR + 1])
 {
     int index = 0;
 
@@ -32,15 +33,19 @@ int structureKey(  char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
     {
         for (int c = 0; c < KEY_COLS; c++)
         {
-            for (int i = 0; i < KEY_N_CHAR - 1; i++)
+            for (int i = 0; i < KEY_N_CHAR; i++)
             {
-                key[r][c * (KEY_N_CHAR - 1) + i] = tempKey[index++];
+                key[r][c * KEY_N_CHAR + i] = tempKey[index++];
             }
         }
 
-        if(strlen(key[r]) != 56)
+        key[r][KEY_COLS * KEY_N_CHAR] = '\0';
+
+        if(strlen(key[r]) != KEY_COLS * KEY_N_CHAR)
         {
             printf("Error structuring key at row %d | decrypt.c\n", r);
+            printf("%s | %d\n", key[r], strlen(key[r]));
+            printf("Length should be: %d", KEY_COLS * KEY_N_CHAR);
             return 1;
         }
     }
@@ -50,13 +55,13 @@ int structureKey(  char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
 
 int solveKey(  char systemMap[MAP_ROWS][MAP_COLS],
                 unsigned char keyVector[KEY_ROWS][KEY_COLS],
-                char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR])
+                char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1])
 {
     for (int r = 0; r < KEY_ROWS; r++)
     {
         for (int c = 0; c < KEY_COLS; c++)
         {
-            char temp[KEY_N_CHAR];
+            char temp[KEY_N_CHAR + 1];
             generateString(temp, key, r, c);
 
             decryptValues(systemMap, keyVector, temp, r, c);
@@ -72,20 +77,20 @@ int solveKey(  char systemMap[MAP_ROWS][MAP_COLS],
     return 0;
 }
 
-void generateString(char temp[KEY_N_CHAR],
-                    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR],
+void generateString(char temp[KEY_N_CHAR + 1],
+                    char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1],
                     int r, int c)
 {   
-    for (int i = 0; i < KEY_N_CHAR - 1; i++)
+    for (int i = 0; i < KEY_N_CHAR + 1; i++)
     {
         if (i < 7)
         {
-            temp[i] = key[r][c * (KEY_N_CHAR - 1) + i];
+            temp[i] = key[r][c * (KEY_N_CHAR) + i];
             continue;
         }
     }
 
-    temp[KEY_N_CHAR - 1] = '\0';
+    temp[KEY_N_CHAR] = '\0';
 }
 
 void decryptValues( char systemMap[MAP_ROWS][MAP_COLS],
@@ -94,10 +99,10 @@ void decryptValues( char systemMap[MAP_ROWS][MAP_COLS],
 {
     int index = 0;
 
-    while(1)
-    {
+    while(index <= 255)
+    {   
         // compare strings
-        if (!strcmp(systemMap[index],temp))
+        if (!strcmp(systemMap[index], temp))
         {
             keyVector[r][c] = index;
             break;

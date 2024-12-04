@@ -5,5 +5,6 @@
 #include "client.h"
 
 int authorizeClient(Clients clients, int cardId);
+int generateCardId(Clients *clients);
 
 #endif

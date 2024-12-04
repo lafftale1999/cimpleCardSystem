@@ -16,7 +16,7 @@
 typedef struct
 {
     int id;
-    char dateOfRegistration[12];
+    char dateOfRegistration[26];
     char clientMapPath[100];
     char clientKeyPath[100];
 } Client;
@@ -34,9 +34,6 @@ Restriction giveAccess();
 int createKeyPath(Client *client);
 int createMapPath(Client *client);
 int createRegistrationDate(Client *client);
-
-int readClientCount(int *clientCount);
-void increaseClientCount(int clientCount);
 
 int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
                         unsigned char clientKeyVector[KEY_ROWS][KEY_COLS]);
