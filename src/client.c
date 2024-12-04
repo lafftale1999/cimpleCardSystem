@@ -282,33 +282,51 @@ int readClientListFromFile(Clients *clients)
     int attribute = 0;
 
     char tempString[255];
-    tempString[0] = '\0';
+    int tempIndex = 0;
 
     while ((ch = fgetc(file)) != '\n' && ch != EOF)
-    {   
-        if(attribute < 4)
+    {
+
+        if (attribute < 4)
         {
-            if(ch != ',') 
+
+            if(ch != ',')
             {
-                strncat(tempString, &ch, 1);
+                tempString[tempIndex++] = ch;
                 continue;
             }
 
-            else if(attribute == 0) clients->list[index].id = atoi(tempString);
+            tempString[tempIndex] = '\0';
+            tempIndex = 0;
 
-            else if(attribute == 1) strcat(clients->list[index].dateOfRegistration, tempString);
+            switch(attribute)
+            {
+                case 0:
+                    clients->list[index].id = atoi(tempString);
+                    break;
 
-            else if(attribute == 2) strcat(clients->list[index].clientMapPath, tempString);
+                case 1:
+                    strcpy(clients->list[index].dateOfRegistration, tempString);
+                    break;
 
-            else if(attribute == 3) strcat(clients->list[index].clientKeyPath, tempString);
+                case 2:
+                    strcpy(clients->list[index].clientMapPath, tempString);
+                    break;
 
-            memset(tempString, 0, strlen(tempString));
-            attribute++;
+                case 3:
+                    strcpy(clients->list[index].clientKeyPath, tempString);
+                    break;
+            }
+        attribute++;
+        continue;
         }
-        
+
+        tempString[tempIndex++] = ch;
         index++;
         attribute = 0;
     }
+
+    return 0;
 }
 
 int clientMalloc(Clients *clients)

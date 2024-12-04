@@ -17,7 +17,11 @@ int main()
         printf("Clients was not able to initialize!");
         return 1;
     }
-    
+
+    printf("%d\n", clients.list[0].id);
+    printf("%d\n", clients.list[1].id);
+    printf("%d\n", clients.list[2].id);
+
     int menuChoice = 0;
     int menuPauseMS = 2000;
 
