@@ -18,9 +18,9 @@ int main()
         return 1;
     }
 
-    printf("%d\n", clients.list[0].id);
-    printf("%d\n", clients.list[1].id);
-    printf("%d\n", clients.list[2].id);
+    printf("%s\n", clients.list[0].clientMapPath);
+    printf("%s\n", clients.list[1].clientMapPath);
+    printf("%s\n", clients.list[2].clientMapPath);
 
     int menuChoice = 0;
     int menuPauseMS = 2000;
