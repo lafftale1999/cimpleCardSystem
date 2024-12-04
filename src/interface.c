@@ -15,42 +15,39 @@ int runMainMenu()
         "FORCE OPEN DOOR",
         "SHOW CARDS",
         "CHANGE ACCESS",
-        "ADD NEW CARD"
+        "ADD NEW CARD",
         "EXIT PROGRAM"};
 
     
     printMenuOptions(menuOptions, "CARDSYSTEM 1.0.0 - YOUR SAFETY IS OUR MONEY", MENU_OPTIONS);
 
     int userChoice;
-    INPUT_RESULT inputResult;
+    bool inputResult;
 
     while (true)
     {
         inputResult = GetInputInt("> ", &userChoice);
+        printf("%d\n", userChoice);
+        printf("%d\n", sizeof(userChoice));
 
-        switch(inputResult)
+        if(inputResult)
         {
-            case INPUT_RESULT_OK:
-                if(userChoice < 1 || userChoice > MENU_OPTIONS)
+            if(userChoice < 1 || userChoice > MENU_OPTIONS)
                 {
                     printf("Enter a number between 1 and %d\n", MENU_OPTIONS);
                     continue;
                 }
 
-                return userChoice;
+            return userChoice;
+        }
 
-            case INPUT_RESULT_NO_INPUT:
-                printf("You have to enter something\n");
-                continue;
+        else
+        {
+            printf("Number entered is too big. Please enter a number between 1 and %d!\n", MENU_OPTIONS);
+            continue;
+        }
 
-            case INPUT_RESULT_TOO_LONG:
-                printf("Number entered is too big. Please enter a number between 1 and %d!\n", MENU_OPTIONS);
-                continue;
-
-            default:
-                printf("Something went wrong! runMainMenu() interface.c\n");
-                continue;
-        }   
+        printf("Something went wrong! runMainMenu() interface.c\n");
     }
 }
 
