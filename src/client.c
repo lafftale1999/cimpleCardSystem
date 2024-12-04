@@ -6,18 +6,18 @@
 
 int initClientList(Clients *clients)
 {
-    if(countClientsInListFile(&clients) == -1) return -1;
+    if(countClientsInListFile(clients) == -1) return -1;
     clients->size = clients->fill + 10;
 
-    if(clientMalloc(&clients) == -1) return -1;
-    if(readClientListFromFile(&clients) == -1) return -1;
+    if(clientMalloc(clients) == -1) return -1;
+    if(readClientListFromFile(clients) == -1) return -1;
     
     return 0;
 }
 
 int createNewClient(Clients *clients)
 {
-    if(checkClientRealloc(&clients) == -1) return - 1;
+    if(checkClientRealloc(clients) == -1) return - 1;
 
     int flag = 0;
     
@@ -374,19 +374,19 @@ int checkClientRealloc(Clients *clients)
 {
     if (clients->fill == clients->size)
     {
-        Client *tempList;
+        Client *pTemp;
 
         clients->size += 10;
 
-        tempList = (Client*)realloc(clients->list, clients->size * sizeof(Client));
+        pTemp = (Client*)realloc(clients->list, clients->size * sizeof(Client));
 
-        if (!tempList)
+        if (!pTemp)
         {
             printf("Reallocation failed. | checkClientRealloc() client.c\n");
             return -1;
         }
 
-        clients->list = tempList;
+        clients->list = pTemp;
     }
 
     return 0;

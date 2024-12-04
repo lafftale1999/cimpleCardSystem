@@ -4,6 +4,6 @@
 #include "config.h"
 #include "client.h"
 
-int authorizeClient(Clients clients);
+int authorizeClient(Clients clients, int cardId);
 
 #endif

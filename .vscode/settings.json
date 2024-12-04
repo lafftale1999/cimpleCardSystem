@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "c:\\Users\\prett\\Desktop\\dev\\cimpleCardSystem",
+            "binaryPath": "c:\\Users\\prett\\Desktop\\dev\\cimpleCardSystem\\main.exe",
+            "binaryArgs": []
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 PROG = main.exe 
-SRC = main.c src/client.c src/decrypt.c src/encrypt.c src/keygen.c src/mapgen.c src/debugo.c src/interface.c src/utils.c src/safeinput.c src/doorSystem.c
+SRC = main.c src/client.c src/decrypt.c src/encrypt.c src/keygen.c src/mapgen.c src/debugo.c src/interface.c src/utils.c src/safeinput.c src/doorSystem.c src/access.c
 CFLAGS = -g
 LIBS = 
 

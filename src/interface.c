@@ -1,7 +1,6 @@
 #include "../include/interface.h"
 #include "../include/utils.h"
 #include "../include/safeinput.h"
-#include "../include/client.h"
 #include "../include/doorSystem.h"
 #include "../include/access.h"
 
@@ -20,7 +19,7 @@ int runMainMenu()
         "EXIT PROGRAM"};
 
     
-    printMenu(menuOptions, "CARDSYSTEM 1.0.0 - YOUR SAFETY IS OUR MONEY", MENU_OPTIONS);
+    printMenuOptions(menuOptions, "CARDSYSTEM 1.0.0 - YOUR SAFETY IS OUR MONEY", MENU_OPTIONS);
 
     int userChoice;
     INPUT_RESULT inputResult;
@@ -37,6 +36,7 @@ int runMainMenu()
                     printf("Enter a number between 1 and %d\n", MENU_OPTIONS);
                     continue;
                 }
+
                 return userChoice;
 
             case INPUT_RESULT_NO_INPUT:
@@ -54,7 +54,7 @@ int runMainMenu()
     }
 }
 
-void printMenu(char *menu[], char menuMessage[], int size)
+void printMenuOptions(char *menu[], char menuMessage[], int size)
 {
     clearScreen();
     
@@ -66,14 +66,17 @@ void printMenu(char *menu[], char menuMessage[], int size)
     }
 }
 
-void UIopenDoor()
+void printInformation(char *headline, char *message)
 {
-    openDoor();
+    clearScreen();
+
+    printf("%s\n", *headline);
+    printf("%s\n", *message);
 }
 
 void printAllCards(Clients clients)
 {
-    printMenu("Listing all cards", "LIST ALL CARDS", 1);
+    printInformation("LIST ALL CARDS", "Listing all cards");
 
     if (clients.size > 0)
     {
@@ -87,23 +90,27 @@ void printAllCards(Clients clients)
     }
 }
 
-void UIscanCard(Clients clients)
+void UIopenDoor()
 {
-    printMenu("Enter the card to be scanned ('x' to go back):", "SCAN CARD", 1);
+    clearScreen();
+    openDoor();
+}
 
-    int clientId = scanCard();
+void UIscanCard(Clients clients)
+{   
+    printInformation("SCAN CARD", "Enter the card to be scanned ('x' to go back):");
 
-    authorizeClient(clients, clientId);
-    sleep(2);
+    int cardId = scanCard();
+
+    authorizeClient(clients, cardId);
 }
 
 void UIcreateNewClient(Clients *clients)
 {   
-    printMenu("Creating new client...", "CREATE NEW CLIENT", 1);
+    printInformation("CREATE NEW CLIENT", "Creating new client...");
 
-    if(!createNewClient(&clients))
+    if(!createNewClient(clients))
     {   
-        printMenu("Creating new client...", "CREATE NEW CLIENT", 1);
         printf("Client created!\n");
         printf("Client Id: %d\n", clients->list[clients->fill - 1].id);
         printf("Access: %s\n", checkClientAccess(clients->list[clients->fill - 1]) == ACCESS ? "ACCESS" : "NO ACCESS");
@@ -114,13 +121,11 @@ void UIcreateNewClient(Clients *clients)
     {
         printf("Client creation failed! | UIcreateNewClient() interface.c\n");
     }
-
-    sleep(2);
 }
 
 void UIchangeAccess(Clients clients)
 {
-    printMenu("Enter card to be scanned or (x) to go back!", "CHANGE ACCESS", 1);
+    printInformation("CHANGE ACCESS", "Enter card to be scanned or (x) to go back!");
 
     int clientID = scanCard();
     int listIndex = findClientId(clientID, clients);
@@ -136,13 +141,11 @@ void UIchangeAccess(Clients clients)
     {
         printf("Card Id does not exist!\n");
     }
-
-    sleep(2);
 }
 
-void UIexitProgram()
-{
-    printMenu("Are you sure you wanna exit the program?", "EXIT PROGRAM", 1);
+int UIexitProgram()
+{   
+    printInformation("EXIT PROGRAM", "Are you sure you wanna exit the program?");
 
     printf("Enter (y) for yes or (n) for no\n");
 

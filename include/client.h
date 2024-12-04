@@ -30,15 +30,25 @@ typedef struct
 
 int initClientList(Clients *clients);
 int createNewClient(Clients *clients);
-int readClientCount(int *clientCount);
-void increaseClientCount(int clientCount);
+Restriction giveAccess();
 int createKeyPath(Client *client);
 int createMapPath(Client *client);
 int createRegistrationDate(Client *client);
+
+int readClientCount(int *clientCount);
+void increaseClientCount(int clientCount);
+
 int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
                         unsigned char clientKeyVector[KEY_ROWS][KEY_COLS]);
 
 Restriction checkClientAccess(Client client);
 int findClientId(int searchId, Clients clients);
+int countClientsInListFile(Clients *clients);
+int writeClientListToFile(Clients clients, int listSize);
+int readClientListFromFile(Clients *clients);
 
+int clientMalloc(Clients *clients);
+int checkClientRealloc(Clients *clients);
+
+int changeAccess(Client client, Restriction access);
 #endif

@@ -18,7 +18,7 @@ int authorizeClient(Clients clients, int cardId)
     switch (access)
     {
     case ACCESS:
-        writeOpenDoor();
+        openDoor();
         break;
     
     case N_ACCESS:

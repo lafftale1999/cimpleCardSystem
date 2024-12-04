@@ -1,7 +1,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "../include/config.h"
+#include "config.h"
+#include "client.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +10,13 @@
 #include <stdbool.h>
 
 int runMainMenu();
-void printMenu(char *menu[], char menuMessage[], int size);
-int writeOpenDoor();
+void printMenuOptions(char *menu[], char menuMessage[], int size);
+void printInformation(char *headline, char *message);
 void printAllCards(Clients clients);
+void UIopenDoor();
+void UIscanCard(Clients clients);
+void UIcreateNewClient(Clients *clients);
+void UIchangeAccess(Clients clients);
+int UIexitProgram();
 
 #endif

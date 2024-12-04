@@ -4,5 +4,6 @@
 #include "config.h"
 
 int scanCard();
+int openDoor();
 
 #endif
