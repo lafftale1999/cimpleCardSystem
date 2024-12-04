@@ -70,6 +70,13 @@ void printInformation(char *headline, char *message)
     printf("%s\n", message);
 }
 
+void waitForInput()
+{   
+    printf("\nPress enter to go back to menu\n");
+    char ch;
+    scanf("%c", &ch);
+}
+
 void printAllCards(Clients *clients)
 {
     printInformation("LIST ALL CARDS", "Listing all cards");
@@ -84,12 +91,17 @@ void printAllCards(Clients *clients)
             clients->list[i].dateOfRegistration);
         }
     }
+
+    waitForInput();
 }
+
+
 
 void UIopenDoor()
 {
     clearScreen();
     openDoor();
+    waitForInput();
 }
 
 void UIscanCard(Clients clients)
@@ -99,6 +111,7 @@ void UIscanCard(Clients clients)
     int cardId = scanCard();
 
     authorizeClient(clients, cardId);
+    waitForInput();
 }
 
 void UIcreateNewClient(Clients *clients)
@@ -119,6 +132,7 @@ void UIcreateNewClient(Clients *clients)
     }
 
     printf("Client successfully created\n");
+    waitForInput();
 }
 
 void UIchangeAccess(Clients clients)
@@ -139,6 +153,8 @@ void UIchangeAccess(Clients clients)
     {
         printf("Card Id does not exist!\n");
     }
+
+    waitForInput();
 }
 
 int UIexitProgram()
