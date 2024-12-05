@@ -31,6 +31,7 @@ int readMapFromFile(char hashString[], char mapPath[])
 
     while (fgets(hashString, (MAP_COLS * MAP_ROWS + 1), file));
     
+    fclose(file);
     return 0;
 }
 

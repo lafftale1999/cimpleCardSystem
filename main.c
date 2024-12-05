@@ -48,6 +48,10 @@ int main()
                 continue;
 
             case 6:
+                UIremoveCard(&clients);
+                continue;
+
+            case 7:
                 if(UIexitProgram()) break;
                 continue;
 

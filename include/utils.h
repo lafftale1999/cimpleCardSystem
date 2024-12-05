@@ -3,5 +3,6 @@
 
 int getNextKeyboardAction();
 void clearScreen();
+int removeFile(char filePath[]);
 
 #endif

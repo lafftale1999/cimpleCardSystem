@@ -4,6 +4,7 @@
 #include "../include/decrypt.h"
 #include "../include/safeinput.h"
 #include "../include/access.h"
+#include "../include/utils.h"
 
 int initClientList(Clients *clients)
 {
@@ -42,7 +43,7 @@ int createNewClient(Clients *clients)
     }
 
     clients->fill++;
-    writeClientListToFile(*clients, clients->fill);
+    writeClientListToFile(*clients);
 
     return 0;
 }
@@ -243,14 +244,14 @@ int countClientsInListFile(Clients *clients)
     return 0;
 }
 
-int writeClientListToFile(Clients clients, int listSize)
+int writeClientListToFile(Clients clients)
 {
     FILE *file = fopen(CLIENT_LIST_PATH, "w");
 
     char tempString[255];
     tempString[0] = '\0';
 
-    for (int i = 0; i < listSize; i++)
+    for (int i = 0; i < clients.fill; i++)
     {
         fprintf(file, 
             "%d,%s,%s,%s,",
@@ -364,4 +365,24 @@ int checkClientRealloc(Clients *clients)
 int changeAccess(Client client, Restriction access)
 {
     createKey(client.clientKeyPath, client.clientMapPath, access);
+}
+
+int removeCard(Clients *clients, int index)
+{
+    char flag = 0;
+    flag += removeFile(clients->list[index].clientKeyPath);
+    flag += removeFile(clients->list[index].clientMapPath);
+
+    for(int i = index; i < clients->fill - 1; i++)
+    {
+        clients->list[i] = clients->list[i + 1];
+    }
+
+    clients->fill--;
+
+    if(flag != 0) printf("There was an error removing client | removeCard() client.c\n");
+
+    writeClientListToFile(*clients);
+
+    return flag;
 }

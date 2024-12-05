@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <windows.h>
 
-#define MENU_OPTIONS 6
+#define MENU_OPTIONS 7
 
 int runMainMenu()
 {
@@ -17,6 +17,7 @@ int runMainMenu()
         "SHOW CARDS",
         "CHANGE ACCESS",
         "ADD NEW CARD",
+        "REMOVE CARD",
         "EXIT PROGRAM"};
 
     
@@ -92,7 +93,6 @@ void printAllCards(Clients *clients)
         }
     }
 
-    waitForInput();
 }
 
 
@@ -186,4 +186,60 @@ int UIexitProgram()
             printf("Enter either (y) for yes or (n) for no");
         }
     }
+}
+
+int UIremoveCard(Clients *clients)
+{
+    printInformation("REMOVE CARDS", "Listing all cards. Press enter to go back!");
+    printAllCards(clients);
+
+    printf("\nEnter card to remove");
+
+    int index = getCardIndex(clients);
+
+    if(index == -1)
+    {
+        return 0;
+    }
+
+    if(removeCard(clients, index) != 0) printf("The removal was unsuccesful\n");
+    else printf("The removal of card was succesful!");
+
+    return 0;
+}
+
+int getCardIndex(Clients *clients)
+{
+    const char arrSize = 5;
+    char userInput[arrSize];
+    int cardId;
+
+    while (1)
+    {
+        INPUT_RESULT accepted = GetInput("> ", userInput, arrSize);
+
+        switch(accepted)
+        {
+            case INPUT_RESULT_OK:
+                cardId = atoi(userInput);
+                break;
+
+            case INPUT_RESULT_NO_INPUT:
+                return -1;
+
+            case INPUT_RESULT_TOO_LONG:
+                printf("Please enter a number between 1 and 9999");
+                continue;
+        }
+
+        for (int i = 0; i < clients->fill; i++)
+        {   
+            printf("UserInput = %d | card[%d].id = %d\n", cardId, i, clients->list[i].id);
+            if(cardId == clients->list[i].id) return i;
+        }
+
+        printf("There is no card with that ID in the system\n");
+    }
+
+    waitForInput();
 }

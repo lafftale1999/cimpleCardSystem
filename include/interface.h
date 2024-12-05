@@ -18,5 +18,7 @@ void UIscanCard(Clients clients);
 void UIcreateNewClient(Clients *clients);
 void UIchangeAccess(Clients clients);
 int UIexitProgram();
+int UIremoveCard(Clients *clients);
+int getCardIndex(Clients *clients);
 
 #endif

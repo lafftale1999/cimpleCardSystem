@@ -41,11 +41,13 @@ int compareKeyVectors(  unsigned char systemKeyVector[KEY_ROWS][KEY_COLS],
 Restriction checkClientAccess(Client client);
 int findClientId(int searchId, Clients clients);
 int countClientsInListFile(Clients *clients);
-int writeClientListToFile(Clients clients, int listSize);
+int writeClientListToFile(Clients clients);
 int readClientListFromFile(Clients *clients);
 
 int clientMalloc(Clients *clients);
 int checkClientRealloc(Clients *clients);
 
 int changeAccess(Client client, Restriction access);
+int removeCard(Clients *clients, int index);
+
 #endif
