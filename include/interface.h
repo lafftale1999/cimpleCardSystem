@@ -20,5 +20,6 @@ void UIchangeAccess(Clients clients);
 int UIexitProgram();
 int UIremoveCard(Clients *clients);
 int getCardIndex(Clients *clients);
+void waitForInput();
 
 #endif

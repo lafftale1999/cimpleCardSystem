@@ -3,6 +3,7 @@
 #include "include/interface.h"
 #include "include/access.h"
 #include "include/interface.h"
+#include "include/utils.h"
 
 #include <Windows.h>
 
@@ -37,6 +38,7 @@ int main()
 
             case 3:
                 printAllCards(&clients);
+                waitForInput();
                 continue;
 
             case 4:
