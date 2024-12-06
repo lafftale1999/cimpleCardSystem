@@ -209,9 +209,9 @@ int UIremoveCard(Clients *clients)
 }
 
 int getCardIndex(Clients *clients)
-{
-    const char arrSize = 5;
-    char userInput[arrSize];
+{   
+    #define arrSize 5
+    char userInput[arrSize] = {"0"};
     int cardId;
 
     while (1)
