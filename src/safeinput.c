@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "../include/safeinput.h"
 
+/* Imported file from our teacher to be able to safely receive input */
 
 bool parseLong(const char *str, long *val)
 {

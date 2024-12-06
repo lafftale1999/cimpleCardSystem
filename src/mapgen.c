@@ -1,22 +1,23 @@
 #include "../include/mapgen.h"
 #include "../include/debugo.h"
 
-// Decrypting the hashed string from file
+// maps our clients map and adds the values to map[][]
 int getMap(char map[MAP_ROWS][MAP_COLS], char mapPath[])
 {   
-    int success = 0;
+    // keeps track if anything went wrong
+    int flags = 0;
     
     // declares string and iniates null to avoid scrap
     char hashString[MAP_COLS * MAP_ROWS + 1];
     hashString[0] = '\0';
 
     // reads the hashed string from file
-    success += readMapFromFile(hashString, mapPath);
+    flags += readMapFromFile(hashString, mapPath);
 
     // maps it
-    success += mapHashString(hashString, map);
+    flags += mapHashString(hashString, map);
 
-    return success;
+    return flags;
 }
 
 int readMapFromFile(char hashString[], char mapPath[])
@@ -29,9 +30,10 @@ int readMapFromFile(char hashString[], char mapPath[])
         return 1;
     }
 
-    while (fgets(hashString, (MAP_COLS * MAP_ROWS + 1), file));
+    fgets(hashString, (MAP_COLS * MAP_ROWS + 1), file);
     
     fclose(file);
+    
     return 0;
 }
 
@@ -56,6 +58,9 @@ int mapHashString(char hashString[], char map[MAP_ROWS][MAP_COLS])
             }
         }
     }
+
+    // if not return error value
+    else return 1;
 
     for (int r = 0; r < MAP_ROWS; r++)
     {

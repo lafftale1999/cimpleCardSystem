@@ -37,8 +37,7 @@ int main()
                 continue;
 
             case 3:
-                printAllCards(&clients);
-                waitForInput();
+                UIprintCards(&clients);
                 continue;
 
             case 4:

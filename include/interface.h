@@ -21,5 +21,6 @@ int UIexitProgram();
 int UIremoveCard(Clients *clients);
 int getCardIndex(Clients *clients);
 void waitForInput();
+void UIprintCards(Clients *clients);
 
 #endif

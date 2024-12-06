@@ -40,7 +40,6 @@ int authorizeClient(Clients clients, int cardId)
 int generateCardId(Clients *clients)
 {
     srand(time(NULL));
-
     int rnd = 0;
 
     while (1)
