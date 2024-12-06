@@ -15,7 +15,11 @@ int authorizeClient(Clients clients, int cardId)
     if(clientIndex != -1) 
         access = checkClientAccess(clients.list[clientIndex]);
 
-    else access = N_ACCESS;
+    else 
+    {
+        printf("Card is not in system!\n");
+        access = N_ACCESS;
+    }
 
     switch (access)
     {

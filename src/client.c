@@ -179,40 +179,12 @@ Restriction checkClientAccess(Client client)
 
 int findClientId(int searchId, Clients clients)
 {   
-    int size = clients.fill;
 
-    int s = 0;
-    int e = size - 1;
-    int i = 0;
-
-    // check that client id is within scope
-    if(searchId < clients.list[s].id && searchId > clients.list[e].id)
+    for(int i = 0; i < clients.fill; i++)
     {
-        return -1;
+        if (searchId == clients.list[i].id) return i;
     }
-
-    while(size > 2)
-    {
-        i = e - (size/2);
-
-        // client id found
-        if(clients.list[i].id == searchId) return i;
-
-        // client id smaller
-        else if (clients.list[i].id < searchId) e = i;
-
-        // client id bigger
-        else if (clients.list[i].id > searchId) s = i;
-
-        // client not found
-        else return -1;
-    }
-
-    // see if the last two is the client id
-    if (clients.list[s].id == searchId) return s;
-    else if (clients.list[e].id == searchId) return e;
-
-    // if not return -1
+    
     return -1;
 }
 
