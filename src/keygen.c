@@ -6,6 +6,7 @@
 // creating new key
 int createKey(char keyPath[], char mapPath[], Restriction access)
 {   
+    // keeping track so every function has perfomed correctly
     int flag = 0;
 
     // two by two vector to save the assigned values
@@ -26,6 +27,7 @@ int createKey(char keyPath[], char mapPath[], Restriction access)
         break;
     
     case N_ACCESS:
+        // if the person should not have acces - generate a random key
         flag += generateKeyNumbers(keyVector);
         break;
     
@@ -41,6 +43,7 @@ int createKey(char keyPath[], char mapPath[], Restriction access)
     return flag;
 }
 
+// only used to create the system key
 void createSystemKey()
 {
     // two by two vector to save the assigned values
@@ -57,11 +60,11 @@ void createSystemKey()
 
     encryptKey(key, keyVector, SYSTEM_PATH "system_map.txt");
     saveKeyToFile(key, SYSTEM_PATH "system_key.txt");
-    printKey(key);
 }
 
 int generateKeyNumbers(unsigned char keyVector[KEY_ROWS][KEY_COLS])
 {
+    // seed random
     srand(time(NULL));
 
     int rnd = 0;
@@ -82,45 +85,6 @@ int generateKeyNumbers(unsigned char keyVector[KEY_ROWS][KEY_COLS])
     }
 
     return 0;
-}
-
-// printing the encrypted key
-void printKey(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1])
-{
-    // ----------- DEBUG ------------
-    printf("\nPRINT CRYPTED KEY START\n");
-    // ----------- DEBUG ------------
-
-    printf("----------- PRINT ROWS --------\n");
-    for (int i = 0; i < KEY_ROWS; i++)
-    {
-        printf("%s\n", key[i]);
-    }
-
-    printf("----------- PRINT ROWS --------\n");
-
-    printf("----------- PRINT ROWS & COLUMNS --------\n");
-    for (int r = 0; r < KEY_ROWS; r++)
-    {
-        printf("%d | ", r);
-
-        for (int c = 0; c < KEY_COLS; c++)
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                printf("%c", key[r][c * 7 + i]);
-            }
-            
-            printf("\t | \t");
-        }
-        printf("\n");
-    }
-
-    printf("----------- PRINT ROWS & COLUMNS --------\n");
-
-    // ----------- DEBUG ------------
-    printf("\nPRINT CRYPTED KEY END\n");
-    // ----------- DEBUG ------------
 }
 
 void saveKeyToFile(char key[KEY_ROWS][KEY_COLS * KEY_N_CHAR + 1], char filePath[])

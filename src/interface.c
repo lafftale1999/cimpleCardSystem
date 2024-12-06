@@ -69,19 +69,17 @@ void printInformation(char *headline, char *message)
 
     printf("%s\n", headline);
     printf("%s\n", message);
+    printf("---------------------------------------\n");
 }
 
 void waitForInput()
 {   
     printf("\nPress enter to go back to menu\n");
-    char ch;
-    scanf("%c", &ch);
+    while(getchar() != '\n');
 }
 
 void printAllCards(Clients *clients)
 {
-    printInformation("LIST ALL CARDS", "Listing all cards");
-
     if (clients->fill > 0)
     {
         for (int i = 0; i < clients->fill; i++)
@@ -92,10 +90,7 @@ void printAllCards(Clients *clients)
             clients->list[i].dateOfRegistration);
         }
     }
-
 }
-
-
 
 void UIopenDoor()
 {
@@ -106,11 +101,23 @@ void UIopenDoor()
 
 void UIscanCard(Clients clients)
 {   
-    printInformation("SCAN CARD", "Enter the card to be scanned ('x' to go back):");
+    printInformation("SCAN CARD", "Enter the card to be scanned ('x' to go back)");
 
-    int cardId = scanCard();
+    if(clients.fill > 0)
+    {
+        int cardId = scanCard();
+        authorizeClient(clients, cardId);
+    }
 
-    authorizeClient(clients, cardId);
+    else printf("No cards in system\n");
+    
+    waitForInput();
+}
+
+void UIprintCards(Clients *clients)
+{
+    printInformation("LIST ALL CARDS", "Listing all cards");
+    printAllCards(clients);
     waitForInput();
 }
 
@@ -138,29 +145,71 @@ void UIcreateNewClient(Clients *clients)
 void UIchangeAccess(Clients clients)
 {
     printInformation("CHANGE ACCESS", "Enter card to be scanned or (x) to go back!");
-
-    int clientID = scanCard();
-    int listIndex = findClientId(clientID, clients);
-
-    if (listIndex != -1)
+    
+    if (clients.fill > 0)
     {
-        Restriction access = giveAccess();
+        printAllCards(&clients);
+        int cardId = scanCard();
 
-        changeAccess(clients.list[listIndex], access);
+        if(cardId != -1)
+        {
+            int listIndex = findClientId(cardId, clients);
+
+            if (listIndex != -1)
+            {
+                Restriction access = giveAccess();
+                changeAccess(clients.list[listIndex], access);
+            }
+
+            else
+            {
+                printf("Card Id does not exist!\n");
+            }
+        }
     }
 
-    else
-    {
-        printf("Card Id does not exist!\n");
-    }
-
+    else printf("No cards in system\n");
+    
     waitForInput();
+}
+
+int UIremoveCard(Clients *clients)
+{
+    printInformation("REMOVE CARDS", "Listing all cards. Press enter to go back!");
+    
+    if(clients->fill > 0)
+    {
+        printAllCards(clients);
+        printf("\nEnter card to remove");
+        int cardId = scanCard();
+
+        if(cardId != -1)
+        {
+            int listIndex = findClientId(cardId, *clients);
+
+            if(listIndex != -1)
+            {
+                if(removeCard(clients, listIndex) != 0) printf("The removal was unsuccesful\n");
+                else printf("The removal of card was succesful!");
+            }
+
+            else
+            {
+                printf("Card Id does not exist!\n");
+            }
+        }
+    }
+    
+    else printf("No cards in system\n");
+    
+    waitForInput();
+
+    return 0;
 }
 
 int UIexitProgram()
 {   
     printInformation("EXIT PROGRAM", "Are you sure you wanna exit the program?");
-
     printf("Enter (y) for yes or (n) for no\n");
 
     char input;
@@ -186,26 +235,6 @@ int UIexitProgram()
             printf("Enter either (y) for yes or (n) for no");
         }
     }
-}
-
-int UIremoveCard(Clients *clients)
-{
-    printInformation("REMOVE CARDS", "Listing all cards. Press enter to go back!");
-    printAllCards(clients);
-
-    printf("\nEnter card to remove");
-
-    int index = getCardIndex(clients);
-
-    if(index == -1)
-    {
-        return 0;
-    }
-
-    if(removeCard(clients, index) != 0) printf("The removal was unsuccesful\n");
-    else printf("The removal of card was succesful!");
-
-    return 0;
 }
 
 int getCardIndex(Clients *clients)

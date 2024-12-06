@@ -68,7 +68,6 @@ Restriction giveAccess()
 
             printf("Please enter either (1) for access or (2) for no access!\n");
             continue;
-
         }
 
         else 
