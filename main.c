@@ -20,7 +20,7 @@ int main()
     }
 
     int menuChoice = 0;
-    int menuPauseMS = 2000;
+    const int menuPauseMS = 2000;
 
     while (true)
     {   
@@ -58,7 +58,7 @@ int main()
 
             default:
                 printf("Something went wrong. Please try again!\n");
-                Sleep(2000);
+                Sleep(menuPauseMS);
                 continue;
         }
 
