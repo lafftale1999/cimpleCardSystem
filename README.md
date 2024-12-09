@@ -1,5 +1,5 @@
 # CuperAdCcreen
-Individual assignment for my class "C / C++ Programming". The objective was to simulate an access system where we can dynamically Create, Read, Update and Delete cards in the system. I also tried to emulate and encryption system (without any prior knowledge in cryptography) to create a sense of security for the program.
+Individual assignment for my class "C / C++ Programming". The objective was to simulate an access system where we can dynamically Create, Read, Update and Delete cards in the system. I also tried to emulate an encryption system (without any prior knowledge in cryptography) to create a sense of security for the program.
 
 ## Key features
 Reads the .txt-file with cards in it
