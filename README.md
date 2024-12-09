@@ -11,11 +11,10 @@ User are able to dynamically:
 * create new card
 * delete card
 
-Every card has a unique key and map for encrypting/decrypting their access.  
-The map is randomly generated and is used to map the key when checking access.
+Every card has a unique key and map for encrypting/decrypting their access. The map is randomly generated and is used to map the key when checking access.
 
 ## Prerequisites
-**Operating System** Makefile is tuned for Windows/Linux.
-**Programming Languages** C and Makefile
-**Compiler** GCC
-**Libraries** C Standard libraries
+**Operating System** Makefile is tuned for Windows/Linux.  
+**Programming Languages** C and Makefile.  
+**Compiler** GCC.  
+**Libraries** C Standard libraries.  
